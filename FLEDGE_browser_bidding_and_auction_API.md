@@ -64,6 +64,28 @@ const auctionResultPromise = navigator.runAdAuction({
 
 The browser verifies it witnessed a Fetch request to the `seller`’s origin with `"adAuctionHeaders: true"` that included an `Ad-Auction-Result` header with hash of `response_blob`. It also checks that the `response_blob` corresponds to the `navigator.getInterestGroupAdAuctionData()` request with the provided `requestId` that was sent from the same frame. Since the Fetch request required HTTPS which authenticates the seller’s origin, this verification authenticates that the seller produced the response blob. `runAdAuction()` then proceeds as if the auction happened on device. This specially configured auction configuration can be used for single seller auctions or as a component auction configuration for multi-seller auctions (in this case the `getInterestGroupAdAuctionData()` call must include a `top_level_seller` field that must later match the top-level seller passed to `runAdAuction()`). To facilitate parallelizing on-device and on-server auctions, the `serverResponse` could be a Promise that resolves to a `Uint8Array` containing the blob later.
 
+## Request Size Control
+
+There are a number of features that can be used to optimize the size of the
+`auctionBlob` return from `getInterestGroupAdAuctionData()`.
+
+### Auction Request Flags
+
+The interest group object can contain a `auctionServerRequestFlags` field which
+can control how the ads objects are serialized to be sent to the server. There
+are two values that can be put in this list to affect this behavior:
+
+ 1. `omitAds` - If specified, this value causes the ads and componentAds fields
+    from the interest group to be omitted in the auction request. The ad render
+    ID (or the full ad if `includeFullAds` is also specified) would still be
+    sent as part of the `prevWins` field.
+
+ 2. `includeFullAds` - If specified, the full ad object will be sent to the
+    auction server instead of just the ad render ID in all places where an ad
+    render ID would appear (currently just the ads, componentAds and prevWins
+    fields). This is currently only useful for payload debugging as the server
+    does not support requests containing full ads objects.
+
 ## Privacy Considerations
 
 The blobs sent to and received from the B&A servers can contain data that could be used to re-identify the user across different web sites. To prevent this data from being used to join the user’s cross-site identities, the data is encrypted with public keys whose corresponding private keys are only shared with B&A server instances running in TEEs and running public open-source binaries known to prevent cross-site identity joins (e.g. by preventing logging or other activities which might permit such joins).

@@ -138,6 +138,10 @@ The `biddingWasmHelperURL` field is optional, and lets the bidder provide comput
 
 The `updateURL` provides a mechanism for the group's owner to periodically update the attributes of the interest group: any new values returned in this way overwrite the values previously stored (except that the `name` and `owner` cannot be changed, and `prioritySignalsOverrides` will be merged with the previous value, with `null` meaning a value should be removed from the interest group's old dictionary).  However, the browser will only allow updates when a sufficiently large number of people have the same `updateURL` , e.g. at least 100 browsers with the same update URL. This will not include any metadata, so data such as the interest group `name` should be included within the URL, so long as the URL exceeds the minimum count threshold.  (Without this sort of limit, a single-person interest group could be used to observe that person's coarse-grained IP-Geo location over time.)
 
+The `auctionServerRequestFlags` field is only used for for
+[B&A server auctions](https://github.com/WICG/turtledove/blob/main/FLEDGE_browser_bidding_and_auction_API.md),
+and controls how interest groups are serialized.
+
 The `executionMode` attribute is optional, and may contain one of the following supported values:
 
  * The default value (`"compatibility"`) will run each invocation of `generateBid` in a totally fresh execution environment, which prevents one invocation from directly passing data to a subsequent invocation, but has non-trivial execution costs as each execution environment must be initialized from scratch.
@@ -157,7 +161,7 @@ The `executionMode` attribute is optional, and may contain one of the following 
 
 The `ads` list contains the various ads that the interest group might show.  Each entry is an object that must contain a `renderURL` property with the URL for the ad that would be shown. An ad may also have the following optional properties:
 
- * `adRenderId`: A short [Bytestring](https://webidl.spec.whatwg.org/#es-ByteString) up to 8 characters long serving as an identifier for this ad in this interest group. When this field is specified it will be sent instead of the full ad object for [B&A server auctions](https://github.com/WICG/turtledove/blob/main/FLEDGE_browser_bidding_and_auction_API.md).
+ * `adRenderId`: A short [Bytestring](https://webidl.spec.whatwg.org/#es-ByteString) up to 8 characters long serving as an identifier for this ad in this interest group. This field will be sent instead of the full ad object for [B&A server auctions](https://github.com/WICG/turtledove/blob/main/FLEDGE_browser_bidding_and_auction_API.md).
 
  * `buyerAndSellerReportingId`: If set, the value is used instead of the interest group name or `buyerReportingId` for reporting in `reportWin` and `reportResult`. Note that this field needs to be jointly k-anonymous with the interest group owner, bidding script URL, and render URL to be provided to these reporting fuctions (in the same way that the interest group name would have needed to be).
 
