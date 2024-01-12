@@ -412,7 +412,7 @@ The <dfn for="interest group">estimated size</dfn> of an [=interest group=] |ig|
     [=interest group ad/render url=].
   1. The [=string/length=] of |ad|'s [=interest group ad/metadata=] if the field is not null.
 1. If |ig|'s [=interest group/additional bid key=] is not null:
-  1. 32, which is its size (number of bytes). 
+  1. 32, which is its size (number of bytes).
 
 </div>
 
@@ -1292,7 +1292,7 @@ To <dfn>validate and convert auction ad config</dfn> given an {{AuctionAdConfig}
   1. If |config|["{{AuctionAdConfig/interestGroupBuyers}}"] [=map/exists=] and is not [=list/empty=],
     then return failure.
 1. [=list/For each=] |component| in |config|["{{AuctionAdConfig/componentAuctions}}"]:
-  1. If |isTopLevel| is false, then return failure. 
+  1. If |isTopLevel| is false, then return failure.
   1. Let |componentAuction| be the result of running [=validate and convert auction ad config=] with
     |component| and false.
   1. If |componentAuction| is failure, then return failure.
@@ -2238,7 +2238,7 @@ To <dfn>get direct from seller signals for a buyer</dfn> given a
 
 <div algorithm>
 To <dfn>report result</dfn> given a [=leading bid info=] |leadingBidInfo|, a
-[=direct from seller signals=]-or-null |directFromSellerSignals|, an [=auction config=]-or-null 
+[=direct from seller signals=]-or-null |directFromSellerSignals|, an [=auction config=]-or-null
 |winningComponentConfig|, and a [=global object=] |global|:
   1. Let |config| be |leadingBidInfo|'s [=leading bid info/auction config=].
   1. Let |bidCurrency| be null.
@@ -2502,7 +2502,7 @@ and a [=global object=] |global|:
       |encodedSignedAdditionalBid|.
     1. If |signedAdditionalBid| is failure, then [=iteration/continue=].
     1. Let |additionalBid| be the result of running [=parse a signed additional bid=] given
-      |signedAdditionalBid|, |auctionConfig|, |topLevelAuctionConfig|, and |negativeTargetInfo|. 
+      |signedAdditionalBid|, |auctionConfig|, |topLevelAuctionConfig|, and |negativeTargetInfo|.
     1. If |additionalBid| is not null, then [=list/append=] |additionalBid| to |additionalBids|.
   1. Return |additionalBids|.
 </div>
@@ -4198,9 +4198,9 @@ enum KAnonStatus { "passedAndEnforced", "passedNotEnforced", "belowThreshold", "
       * {{KAnonStatus/belowThreshold}}: The ad was not k-anonymous but k-anonymity was not required to win the auction.
       * {{KAnonStatus/notCalculated}}: The browser did not calculate the k-anonymity status of the ad, and k-anonymity was not required to win the auction.
 
-    From a long-term perspective, the status will always be set to `passedAndEnforced` after 
-    k-anonymity is enforced. However, as a temporary solution, current implementations may set 
-    `kAnonStatus` to one of the other three statuses to allow API users to assess the future 
+    From a long-term perspective, the status will always be set to `passedAndEnforced` after
+    k-anonymity is enforced. However, as a temporary solution, current implementations may set
+    `kAnonStatus` to one of the other three statuses to allow API users to assess the future
     impact of enforcing that ads are k-anonymous.
 </dl>
 
@@ -4359,6 +4359,8 @@ frequency capping.
 <h3 dfn-type=dfn>Currency tag</h3>
 A currency tag is a [=string=] containing exactly 3 upper-case ASCII letters, or null. The null
 value is used to denote that the currency is unspecified.
+
+Note: The [=currency tag=] is intended to be compatible with ISO 4217 currency codes.
 
 <div algorithm>
   To <dfn>serialize a currency tag</dfn> given a [=currency tag=] |currency|:
@@ -4834,7 +4836,7 @@ A <dfn>reporting result</dfn> is a [=struct=] with the following [=struct/items=
   : <dfn>reporting macro map</dfn>
   :: Null or an [=ordered map=] whose [=map/keys=] are [=strings=] and whose [=map/values=] are
      [=strings=], initially null. Set by
-     {{InterestGroupReportingScriptRunnerGlobalScope/registerAdMacro(name, value)}}.  
+     {{InterestGroupReportingScriptRunnerGlobalScope/registerAdMacro(name, value)}}.
 </dl>
 
 # Privacy Considerations # {#privacy-considerations}
